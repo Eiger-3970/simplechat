@@ -179,15 +179,20 @@ export class BedrockChatbotStack extends cdk.Stack {
     });
 
     // Cognito Authorizer
-    const authorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'ChatbotAuthorizer', {
-      cognitoUserPools: [userPool],
-    });
+//    const authorizer = new apigateway.CognitoUserPoolsAuthorizer(this, 'ChatbotAuthorizer', {
+//      cognitoUserPools: [userPool],
+//    });
 
     const chatResource = api.root.addResource('chat');
-    chatResource.addMethod('POST', new apigateway.LambdaIntegration(chatFunction), {
-      authorizer,
-      authorizationType: apigateway.AuthorizationType.COGNITO,
-    });
+    chatResource.addMethod(
+	    'POST',
+	    new apigateway.LambdaIntegration(chatFunction)
+    );
+    
+//    chatResource.addMethod('POST', new apigateway.LambdaIntegration(chatFunction), {
+//      authorizer,
+//      authorizationType: apigateway.AuthorizationType.COGNITO,
+//    });
 
     // 設定生成用のLambdaロールを作成
     const configGeneratorRole = new iam.Role(this, 'ConfigGeneratorRole', {
